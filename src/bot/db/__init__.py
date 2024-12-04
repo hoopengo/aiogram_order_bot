@@ -1,9 +1,9 @@
 __all__ = [
     "session",
-    "UserModel",
+    # "UserModel",
 ]
 
 from .base import session
 
 # MODEL IMPORTS!!!
-from .models import UserModel
+# from .models import UserModel

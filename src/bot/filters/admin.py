@@ -4,6 +4,6 @@ from aiogram.types import Message
 from bot.config import config
 
 
-class AdminFilter(Filter):
+class IsOwner(Filter):
     async def __call__(self, message: Message) -> bool:
-        return message.from_user.id in config.ADMIN_IDS
+        return message.from_user.id in config.OWNER_IDS

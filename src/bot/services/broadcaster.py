@@ -38,9 +38,9 @@ async def send_message(
 {e.retry_after} seconds."
         )
         await asyncio.sleep(e.retry_after)
-        return await send_message(
-            bot, user_id, text, disable_notification, reply_markup
-        )  # Recursive call
+        return await send_message(bot, user_id, text, disable_notification, reply_markup)  # Recursive call
+    except exceptions.TelegramBadRequest as e:
+        logging.error(f"Target [ID:{user_id}]: failed, {e}")
     except exceptions.TelegramAPIError:
         logging.exception(f"Target [ID:{user_id}]: failed")
     else:
@@ -68,13 +68,9 @@ async def broadcast(
     count = 0
     try:
         for user_id in users:
-            if await send_message(
-                bot, user_id, text, disable_notification, reply_markup
-            ):
+            if await send_message(bot, user_id, text, disable_notification, reply_markup):
                 count += 1
-            await asyncio.sleep(
-                0.05
-            )  # 20 messages per second (Limit: 30 messages per second)
+            await asyncio.sleep(0.05)  # 20 messages per second (Limit: 30 messages per second)
     finally:
         logging.info(f"{count} messages successful sent.")
 
